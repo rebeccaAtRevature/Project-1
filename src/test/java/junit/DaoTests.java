@@ -17,7 +17,7 @@ import pojo.ReimbursementPojo;
 public class DaoTests {
 	
 	// Create a mock of the Statement class to avoid accessing the database
-	Class<Statement> stmt = (Statement.class);
+	Statement stmt = mock(Statement.class);
 	
 	
 	static EmployeeDao employeeDao;
