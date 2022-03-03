@@ -1,5 +1,6 @@
 package junit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import dao.EmployeeDao;
 import dao.EmployeeJdbcDaoImpl;
 import exceptions.SystemException;
-import pojo.EmployeePojo;
 import pojo.ReimbursementPojo;
 
 public class DaoTests {
@@ -36,6 +36,8 @@ public class DaoTests {
 			ReimbursementPojo actualResult = employeeDao.submitRequest(reimbursementPojo);
 			ReimbursementPojo expectedResult = new ReimbursementPojo(100,112,65);
 			when(stmt.executeUpdate("INSERT INTO pending_reimbursements( requesting_employee_id, reimbursement_amount) VALUES("+reimbursementPojo.getRequestingEmployeeId()+", "+reimbursementPojo.getReimbursementAmount()+")")).thenReturn(1);
+			// make sure to comment out the ResultSet portion, we are only testing the insert functionality
+			assertEquals(actualResult, expectedResult);
 		} catch (SystemException e) {
 			
 			e.printStackTrace();
