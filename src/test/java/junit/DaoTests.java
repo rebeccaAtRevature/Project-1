@@ -3,6 +3,7 @@ package junit;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -31,11 +32,15 @@ public class DaoTests {
 	@Test
 	public void testSubmitRequest() {
 		try {
-			ReimbursementPojo actualResult = employeeDao.submitRequest(new ReimbursementPojo(100,112,65));
+			ReimbursementPojo reimbursementPojo = new ReimbursementPojo(100,112,65);
+			ReimbursementPojo actualResult = employeeDao.submitRequest(reimbursementPojo);
 			ReimbursementPojo expectedResult = new ReimbursementPojo(100,112,65);
-			when(stmt.executeQuery(String)).thenReturn(new ReimbursementPojo(100,112,65));
+			when(stmt.executeUpdate("INSERT INTO pending_reimbursements( requesting_employee_id, reimbursement_amount) VALUES("+reimbursementPojo.getRequestingEmployeeId()+", "+reimbursementPojo.getReimbursementAmount()+")")).thenReturn(1);
 		} catch (SystemException e) {
 			
+			e.printStackTrace();
+		} catch (SQLException e) {
+		
 			e.printStackTrace();
 		}
 		

@@ -11,6 +11,9 @@ public interface EmployeeService {
 	// EMPLOYEE OPERATIONS
 	// *****************************************************
 
+	// LOGIN
+	public EmployeePojo employeeLogin(int employeeId, String employeePassword) throws SystemException;
+	
 	// SUBMIT A REIMBURSEMENT REQUEST
 	public ReimbursementPojo submitRequest(ReimbursementPojo reimbursementPojo) throws SystemException;
 
@@ -25,6 +28,8 @@ public interface EmployeeService {
 
 	// UPDATE EMPLOYEE DETAILS TABLE
 	public EmployeePojo updateEmployee(EmployeePojo employeePojo) throws SystemException;
+
+	
 
 	// LOGOUT
 }
