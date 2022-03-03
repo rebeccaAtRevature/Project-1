@@ -1,12 +1,16 @@
 package service;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import dao.ManagerDao;
 import dao.ManagerJdbcDaoImpl;
 import exceptions.SystemException;
+import pojo.EmployeePojo;
 import pojo.ManagerPojo;
+import pojo.ReimbursementPojo;
 
 public class ManagerServiceImpl implements ManagerService{
 	
@@ -27,9 +31,50 @@ public class ManagerServiceImpl implements ManagerService{
 		return managerPojo;
 	}
 
+
 	public ManagerPojo fetchManager(int managerId) throws SystemException {
 		// TODO Auto-generated method stub
-		return null;
+		return managerDao.fetchManager(managerId);
+	}
+
+
+	@Override
+	public ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException {
+		return managerDao.readPendingRequest(reimbursementId);
+	}
+
+
+	@Override
+	public ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException {
+		return managerDao.approveOrDeny(reimbursementPojo);
+	}
+
+
+	@Override
+	public List<ReimbursementPojo> viewAllPendingRequests() throws SystemException {
+		// TODO Auto-generated method stub
+		return managerDao.viewAllPendingRequests();
+	}
+
+
+	@Override
+	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
+		// TODO Auto-generated method stub
+		return managerDao.viewAllResolvedRequests();
+	}
+
+
+	@Override
+	public List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException {
+		// TODO Auto-generated method stub
+		return managerDao.viewPendingRequests(employeeId);
+	}
+
+
+	@Override
+	public List<EmployeePojo> viewAllEmployees() throws SystemException {
+		// TODO Auto-generated method stub
+		return managerDao.viewAllEmployees();
 	}
  
 }

@@ -44,6 +44,22 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		return managerPojo;
 	}
 
+	public ReimbursementPojo deletePendingRequest(int reimbursementId) throws SystemException {
+		LOG.info("Entered deletePendingRequest() in DAO");
+		ReimbursementPojo reimbursementPojo = null;
+		Connection conn = DBUtil.obtainConnection();
+		try {
+			Statement stmt = conn.createStatement();
+			reimbursementPojo = readPendingRequest(reimbursementId);
+			String query = "DELETE FROM pending_requests WHERE reimbursement_id = " + reimbursementId;
+			int rows = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			throw new SystemException();
+		}
+		LOG.info("Exited deletePendingRequest() in DAO");
+		return reimbursementPojo;
+	}
+	
 	public ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException {
 		
 		LOG.info("Entering readPendingRequests in Manager DAO");
@@ -92,7 +108,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			ResultSet rs = stmt.executeQuery(query2);
 			System.out.println("SELECT query in addResolvedRequest() was successful");
 			if(rs.next()) {
-				reimbursementPojo.setReimbusermentId(rs.getInt(1));
+				reimbursementPojo.setReimbursementId(rs.getInt(1));
 				reimbursementPojo.setDateResolved(rs.getDate(2));
 			}
 			
@@ -106,6 +122,28 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		return resolvedRequest;
 	}
 		
+	public ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException {
+		// Step 2 - pass the connection from DBUtil to conn
+		Connection conn = DBUtil.obtainConnection();
+		ReimbursementPojo returnPojo = null;
+		try {
+			conn.setAutoCommit(false);
+			reimbursementPojo = deletePendingRequest(reimbursementPojo.getReimbursementId());
+			
+			if(reimbursementPojo.isRequestApproved()) {
+				reimbursementPojo.setRequestApproved(true);
+			} else {
+				reimbursementPojo.setRequestApproved(false);
+			}
+			
+			addResolvedRequest(new ReimbursementPojo(reimbursementPojo.getRequestingEmployeeId(), reimbursementPojo.getReimbursementAmount(), reimbursementPojo.isRequestApproved()));
+			conn.commit();
+		} catch (SQLException e) {
+			throw new SystemException();
+		}
+		
+		return reimbursementPojo;
+	}
 
 	public List<ReimbursementPojo> viewAllPendingRequests() throws SystemException {
 		
@@ -136,7 +174,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 	}
 	
 
-	public List<ReimbursementPojo> veiwAllResolvedRequests() throws SystemException {
+	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
 		
 		LOG.info("Entering viewResolvedRequests in Manager DAO");
 		
@@ -220,4 +258,5 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 
 		return allEmployees;
 	}
+		
 }

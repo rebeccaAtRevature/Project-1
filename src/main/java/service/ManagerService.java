@@ -1,8 +1,11 @@
 package service;
 
+import java.util.List;
+
 import exceptions.SystemException;
 import pojo.EmployeePojo;
 import pojo.ManagerPojo;
+import pojo.ReimbursementPojo;
 
 public interface ManagerService {
 	
@@ -11,5 +14,23 @@ public interface ManagerService {
 	
 	// READ FROM MANAGER DETAILS TABLE
 	public ManagerPojo fetchManager(int managerId) throws SystemException;
+
+	// READ FROM PENDING REIMBURSEMENTS TABLE
+	public ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException;
+			
+	// APPROVE OR DENY PENDING REIMBURSEMENT REQUESTS
+	public ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException;
+	
+	// READ ALL VALUES FROM PENDING REQUESTS TABLE
+	public List<ReimbursementPojo> viewAllPendingRequests() throws SystemException;
+
+	// READ ALL VALUES FROM RESOLVED REQUESTS TABLE
+	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException;
+
+	// READ ALL PENDING REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
+	public List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException;
+
+	// VIEW ALL EMPLOYEES
+	public List<EmployeePojo> viewAllEmployees() throws SystemException;
 
 }
