@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,6 +9,7 @@ import dao.EmployeeDao;
 import dao.EmployeeJdbcDaoImpl;
 import exceptions.SystemException;
 import pojo.EmployeePojo;
+import pojo.ReimbursementPojo;
 
 public class EmployeeServiceImpl implements EmployeeService{
 	
@@ -32,8 +35,23 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	public EmployeePojo fetchEmployee(int employeeId) throws SystemException {
-	
 		return employeeDao.fetchEmployee(employeeId);
+	}
+
+	public ReimbursementPojo submitRequest(ReimbursementPojo reimbursementPojo) throws SystemException {
+		return employeeDao.submitRequest(reimbursementPojo);
+	}
+
+	public List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException {
+		return employeeDao.viewPendingRequests(employeeId);
+	}
+
+	public List<ReimbursementPojo> viewResolvedRequests(int employeeId) throws SystemException {
+		return employeeDao.viewResolvedRequests(employeeId);
+	}
+
+	public EmployeePojo updateEmployee(EmployeePojo employeePojo) throws SystemException {
+		return employeeDao.updateEmployee(employeePojo);
 	}
 	
 	

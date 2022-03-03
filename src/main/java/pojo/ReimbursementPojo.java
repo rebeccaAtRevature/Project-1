@@ -29,6 +29,14 @@ public class ReimbursementPojo {
 	}
 
 	// Constructor for Resolved Requests
+		public ReimbursementPojo(int requestingEmployeeId, double reimbursementAmount,
+				boolean requestApproved) {
+			this.requestingEmployeeId = requestingEmployeeId;
+			this.reimbursementAmount = reimbursementAmount;
+			this.requestApproved = requestApproved;
+		}
+		
+	// Constructor for Resolved Requests
 	public ReimbursementPojo(int reimbusermentId, int requestingEmployeeId, double reimbursementAmount,
 			boolean requestApproved, Date dateResolved) {
 		this.reimbusermentId = reimbusermentId;

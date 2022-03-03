@@ -15,8 +15,14 @@ public interface ManagerDao {
 		// READ FROM PENDING REIMBURSEMENTS TABLE
 		ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException;
 		
+		// DELETE FROM PENDING REIMBURSEMENTS TABLE
+		ReimbursementPojo deletePendingRequest(int reimbursementId) throws SystemException;
+				
 		// ADD TO RESOLVED REIMBURSEMENTS TABLE
 		ReimbursementPojo addResolvedRequest(ReimbursementPojo reimbursementPojo) throws SystemException;
+		
+		// APPROVE OR DENY PENDING REIMBURSEMENT REQUESTS
+		ReimbursementPojo approveOrDeny(int reimbursementId, boolean approved) throws SystemException;
 		
 		// READ ALL VALUES FROM PENDING REQUESTS TABLE
 		List<ReimbursementPojo> viewAllPendingRequests() throws SystemException;
