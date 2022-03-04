@@ -123,6 +123,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			Statement stmt = conn.createStatement();
 			String query = "SELECT * FROM employee_details WHERE employee_id="+employeeId;
 			ResultSet rs = stmt.executeQuery(query);
+			
 			if(rs.next()) {
 				
 				employeePojo = new EmployeePojo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
