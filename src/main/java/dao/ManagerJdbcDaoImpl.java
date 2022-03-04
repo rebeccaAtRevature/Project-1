@@ -108,7 +108,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			ResultSet rs = stmt.executeQuery(query2);
 			System.out.println("SELECT query in addResolvedRequest() was successful");
 			if(rs.next()) {
-				reimbursementPojo.setReimbusermentId(rs.getInt(1));
+				reimbursementPojo.setReimbursementId(rs.getInt(1));
 				reimbursementPojo.setDateResolved(rs.getDate(2));
 			}
 			
@@ -122,15 +122,16 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		return resolvedRequest;
 	}
 		
-	public ReimbursementPojo approveOrDeny(int reimbursementId, boolean approved) throws SystemException {
+
+	public ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException {
 		// Step 2 - pass the connection from DBUtil to conn
 		Connection conn = DBUtil.obtainConnection();
-		ReimbursementPojo reimbursementPojo = null;
+		ReimbursementPojo returnPojo = null;
 		try {
 			conn.setAutoCommit(false);
-			reimbursementPojo = deletePendingRequest(reimbursementId);
+			reimbursementPojo = deletePendingRequest(reimbursementPojo.getReimbursementId());
 			
-			if(approved) {
+			if(reimbursementPojo.isRequestApproved()) {
 				reimbursementPojo.setRequestApproved(true);
 			} else {
 				reimbursementPojo.setRequestApproved(false);
@@ -174,7 +175,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 	}
 	
 
-	public List<ReimbursementPojo> veiwAllResolvedRequests() throws SystemException {
+	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
 		
 		LOG.info("Entering viewResolvedRequests in Manager DAO");
 		
@@ -258,8 +259,5 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 
 		return allEmployees;
 	}
-
-
-
-	
+		
 }

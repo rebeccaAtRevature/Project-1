@@ -40,7 +40,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			ResultSet rs = stmt.executeQuery(query2);
 			System.out.println("SELECT query in submitRequest() was successful");
 			if(rs.next()) {
-				reimbursementPojo.setReimbusermentId(rs.getInt(1));
+				reimbursementPojo.setReimbursementId(rs.getInt(1));
 				reimbursementPojo.setDateOfRequest(rs.getDate(2));
 			}
 			

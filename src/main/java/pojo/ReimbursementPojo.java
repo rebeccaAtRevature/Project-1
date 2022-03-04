@@ -3,7 +3,7 @@ package pojo;
 import java.sql.Date;
 
 public class ReimbursementPojo {
-	private int reimbusermentId;
+	private int reimbursementId;
 	private int requestingEmployeeId;
 	private double reimbursementAmount;
 	private boolean requestApproved;
@@ -13,8 +13,8 @@ public class ReimbursementPojo {
 	public ReimbursementPojo() {}
 	
 	// Constructor for Pending Requests
-		public ReimbursementPojo(int reimbusermentId, int requestingEmployeeId, double reimbursementAmount) {
-			this.reimbusermentId = reimbusermentId;
+	public ReimbursementPojo(int reimbusermentId, int requestingEmployeeId, double reimbursementAmount) {
+			this.reimbursementId = reimbusermentId;
 			this.requestingEmployeeId = requestingEmployeeId;
 			this.reimbursementAmount = reimbursementAmount;
 			
@@ -22,14 +22,14 @@ public class ReimbursementPojo {
 	// Constructor for Pending Requests
 	public ReimbursementPojo(int reimbusermentId, int requestingEmployeeId, double reimbursementAmount,
 			 Date dateOfRequest) {
-		this.reimbusermentId = reimbusermentId;
+		this.reimbursementId = reimbusermentId;
 		this.requestingEmployeeId = requestingEmployeeId;
 		this.reimbursementAmount = reimbursementAmount;
 		this.dateOfRequest = dateOfRequest;
 	}
 
 	// Constructor for Resolved Requests
-		public ReimbursementPojo(int requestingEmployeeId, double reimbursementAmount,
+	public ReimbursementPojo( int requestingEmployeeId, double reimbursementAmount,
 				boolean requestApproved) {
 			this.requestingEmployeeId = requestingEmployeeId;
 			this.reimbursementAmount = reimbursementAmount;
@@ -37,23 +37,21 @@ public class ReimbursementPojo {
 		}
 		
 	// Constructor for Resolved Requests
-	public ReimbursementPojo(int reimbusermentId, int requestingEmployeeId, double reimbursementAmount,
+	public ReimbursementPojo(int reimbursementId, int requestingEmployeeId, double reimbursementAmount,
 			boolean requestApproved, Date dateResolved) {
-		this.reimbusermentId = reimbusermentId;
+		this.reimbursementId = reimbursementId;
 		this.requestingEmployeeId = requestingEmployeeId;
 		this.reimbursementAmount = reimbursementAmount;
 		this.requestApproved = requestApproved;
 		this.dateResolved = dateResolved;
 	}
 
-
-
-	public int getReimbusermentId() {
-		return reimbusermentId;
+	public int getReimbursementId() {
+		return reimbursementId;
 	}
 
-	public void setReimbusermentId(int reimbusermentId) {
-		this.reimbusermentId = reimbusermentId;
+	public void setReimbursementId(int reimbursementId) {
+		this.reimbursementId = reimbursementId;
 	}
 
 	public int getRequestingEmployeeId() {

@@ -30,31 +30,48 @@ public class ManagerServiceImpl implements ManagerService{
 		LOG.info("Exiting managerLogin() in Service Layer");
 		return managerPojo;
 	}
-	
+
+
+	public ManagerPojo fetchManager(int managerId) throws SystemException {
+		// TODO Auto-generated method stub
+		return managerDao.fetchManager(managerId);
+	}
+
+
+	@Override
 	public ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException {
 		return managerDao.readPendingRequest(reimbursementId);
 	}
-	
-	public ReimbursementPojo approveOrDeny(int reimbursementId, boolean approved) throws SystemException {
-		return managerDao.approveOrDeny(reimbursementId, approved);
+
+
+	@Override
+	public ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException {
+		return managerDao.approveOrDeny(reimbursementPojo);
 	}
 
+
+	@Override
 	public List<ReimbursementPojo> viewAllPendingRequests() throws SystemException {
+		// TODO Auto-generated method stub
 		return managerDao.viewAllPendingRequests();
 	}
 
-	public List<ReimbursementPojo> veiwAllResolvedRequests() throws SystemException {
-		return managerDao.veiwAllResolvedRequests();
+	@Override
+	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
+		return managerDao.viewAllResolvedRequests();
 	}
 
+
+	@Override
 	public List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException {
 		return managerDao.viewPendingRequests(employeeId);
 	}
 
+
+	@Override
 	public List<EmployeePojo> viewAllEmployees() throws SystemException {
 		return managerDao.viewAllEmployees();
 	}
-
 
  
 }

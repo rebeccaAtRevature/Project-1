@@ -9,26 +9,23 @@ import pojo.ReimbursementPojo;
 
 public interface ManagerDao {
 	
-	// READ FROM MANAGER DETAILS TABLE
+		// READ FROM MANAGER DETAILS TABLE
 		public ManagerPojo fetchManager(int managerId) throws SystemException;
 		
 		// READ FROM PENDING REIMBURSEMENTS TABLE
 		ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException;
 		
-		// DELETE FROM PENDING REIMBURSEMENTS TABLE
-		ReimbursementPojo deletePendingRequest(int reimbursementId) throws SystemException;
-				
 		// ADD TO RESOLVED REIMBURSEMENTS TABLE
 		ReimbursementPojo addResolvedRequest(ReimbursementPojo reimbursementPojo) throws SystemException;
 		
 		// APPROVE OR DENY PENDING REIMBURSEMENT REQUESTS
-		ReimbursementPojo approveOrDeny(int reimbursementId, boolean approved) throws SystemException;
+		ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException;
 		
 		// READ ALL VALUES FROM PENDING REQUESTS TABLE
 		List<ReimbursementPojo> viewAllPendingRequests() throws SystemException;
 		
 		// READ ALL VALUES FROM RESOLVED REQUESTS TABLE
-		List<ReimbursementPojo> veiwAllResolvedRequests() throws SystemException;
+		List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException;
 		
 		// READ ALL PENDING REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
 		List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException;
