@@ -56,25 +56,22 @@ public class ManagerServiceImpl implements ManagerService{
 		return managerDao.viewAllPendingRequests();
 	}
 
-
 	@Override
 	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
-		// TODO Auto-generated method stub
 		return managerDao.viewAllResolvedRequests();
 	}
 
 
 	@Override
 	public List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException {
-		// TODO Auto-generated method stub
 		return managerDao.viewPendingRequests(employeeId);
 	}
 
 
 	@Override
 	public List<EmployeePojo> viewAllEmployees() throws SystemException {
-		// TODO Auto-generated method stub
 		return managerDao.viewAllEmployees();
 	}
+
  
 }

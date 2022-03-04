@@ -122,6 +122,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		return resolvedRequest;
 	}
 		
+
 	public ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException {
 		// Step 2 - pass the connection from DBUtil to conn
 		Connection conn = DBUtil.obtainConnection();
