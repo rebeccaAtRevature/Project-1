@@ -27,8 +27,8 @@ public interface ManagerDao {
 		// READ ALL VALUES FROM RESOLVED REQUESTS TABLE
 		List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException;
 		
-		// READ ALL PENDING REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
-		List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException;
+		// READ ALL PENDING AND RESOLVED REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
+		List<ReimbursementPojo> viewAllRequests(int employeeId) throws SystemException;
 		
 		// VIEW ALL EMPLOYEES
 		List<EmployeePojo> viewAllEmployees() throws SystemException;

@@ -21,7 +21,8 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 	
 	List<ReimbursementPojo> pendingRequests;
 	List<ReimbursementPojo> resolvedRequests;
-
+	
+	// SUBMIT A REIMBURSEMENT REQUEST
 	public ReimbursementPojo submitRequest(ReimbursementPojo reimbursementPojo) throws SystemException {
 		LOG.info("Entering submitRequest() in DAO");
 		
@@ -52,7 +53,8 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		LOG.info("Exiting submitRequest() in DAO");
 		return reimbursementPojo;
 	}
-
+	
+	// VIEW PENDING REIMBUSEMENT REQUEST FOR LOGGED IN EMPLOYEE
 	public List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException {
 		LOG.info("Entering viewPendingRequests in DAO");
 		
@@ -82,7 +84,8 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		LOG.info("Entering viewPendingRequests in DAO");
 		return pendingRequests;
 	}
-
+	
+	// VIEW RESOLVED REIMBURSEMENT REQUESTS FOR LOGGED IN EMPLOYEE
 	public List<ReimbursementPojo> viewResolvedRequests(int employeeId) throws SystemException {
 		LOG.info("Entering viewResolvedRequests in DAO");
 		
@@ -112,6 +115,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		return resolvedRequests;
 	}
 	
+	// READ FROM EMPLOYEE DETAILS TABLE
 	public EmployeePojo fetchEmployee(int employeeId) throws SystemException {
 		LOG.info("Entering fetchEmployee() in Dao");
 		EmployeePojo employeePojo = null;
@@ -136,7 +140,8 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		LOG.info("Exiting fetchEmployee() in Dao");
 		return employeePojo;
 	}
-
+	
+	// UPDATE EMPLOYEE DETAILS TABLE
 	public EmployeePojo updateEmployee(EmployeePojo employeePojo) throws SystemException {
 		LOG.info("Entering updateEmployee() in DAO");
 		
@@ -156,7 +161,5 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		LOG.info("Exiting updateEmployee() in DAO");
 		return null;
 	}
-
-
-
+	
 }
