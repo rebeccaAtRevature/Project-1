@@ -38,7 +38,7 @@ public class ERSMain {
 		
 		// APPROVE OR DENY PENDING REIMBURSEMENT REQUESTS
 		myServer.put("/api/p-reim/{reim}", ctx -> {
-			// there is an incomming book json in the request body, fetch the request body and store it in the POJO
+			// there is an incoming book json in the request body, fetch the request body and store it in the POJO
 			ReimbursementPojo reimbursmentPojo = ctx.bodyAsClass(ReimbursementPojo.class);
 			// send the request to the service layer
 			ReimbursementPojo reimbursement = managerService.approveOrDeny(reimbursmentPojo);
@@ -53,14 +53,14 @@ public class ERSMain {
 		
 		// READ ALL VALUES FROM RESOLVED REQUESTS TABLE
 		myServer.get("/api/all-r-reims", ctx -> {;
-			List<ReimbursementPojo> allResolvedReimbursement = managerService.viewAllPendingRequests();
+			List<ReimbursementPojo> allResolvedReimbursement = managerService.viewAllResolvedRequests();
 			ctx.json(allResolvedReimbursement);
 		});
 		
 		// READ ALL PENDING AND RESOLVED REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
-		myServer.get("/api/p-reims/{empid}", ctx -> {
+		myServer.get("/api/all-reims/{empid}", ctx -> {
 			String employeeId = ctx.pathParam("empid");
-			List<ReimbursementPojo> allPendingReimbursement = managerService.viewPendingRequests(Integer.parseInt(employeeId));
+			List<ReimbursementPojo> allPendingReimbursement = managerService.viewAllRequests(Integer.parseInt(employeeId));
 			ctx.json(allPendingReimbursement);
 		});
 		
@@ -70,5 +70,5 @@ public class ERSMain {
 			ctx.json(allEmployees);
 		});
 	}
-
+	
 }
