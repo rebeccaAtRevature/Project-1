@@ -11,6 +11,18 @@ public class EmployeePojo {
 	private String employeeAddress;
 	private String password;
 	private String employeeImageUrl;
+	
+	// Constructor
+		public EmployeePojo(int employeeId, String employeeFirstName, String employeeLastName, String employeePhoneNumber,
+				String employeeAddress, String password) {
+			super();
+			this.employeeId = employeeId;
+			this.employeeFirstName = employeeFirstName;
+			this.employeeLastName = employeeLastName;
+			this.employeePhoneNumber = employeePhoneNumber;
+			this.employeeAddress = employeeAddress;
+			this.password = password;
+		}
 
 	// Constructor
 	public EmployeePojo(int employeeId, String employeeFirstName, String employeeLastName, String employeePhoneNumber,
