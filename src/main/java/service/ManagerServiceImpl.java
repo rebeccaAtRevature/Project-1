@@ -32,12 +32,6 @@ public class ManagerServiceImpl implements ManagerService{
 	}
 
 
-	public ManagerPojo fetchManager(int managerId) throws SystemException {
-		// TODO Auto-generated method stub
-		return managerDao.fetchManager(managerId);
-	}
-
-
 	@Override
 	public ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException {
 		return managerDao.readPendingRequest(reimbursementId);

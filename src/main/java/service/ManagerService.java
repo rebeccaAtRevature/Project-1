@@ -24,7 +24,7 @@ public interface ManagerService {
 	// READ ALL VALUES FROM RESOLVED REQUESTS TABLE
 	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException;
 
-	// READ ALL PENDING REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
+	// READ ALL PENDING AND RESOLVED REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
 	public List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException;
 
 	// VIEW ALL EMPLOYEES

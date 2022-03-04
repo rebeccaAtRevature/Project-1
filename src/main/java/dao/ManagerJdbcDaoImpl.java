@@ -20,8 +20,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 	
 	public static final Logger LOG = LogManager.getLogger(EmployeeServiceImpl.class);
 
-	// Add collections here for any methods that return a list
-	
+	// READ FROM MANAGER DETAILS TABLE
 	public ManagerPojo fetchManager(int managerId) throws SystemException {
 		
 		LOG.info("Entering fetchManager in DAO");
@@ -43,7 +42,8 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		
 		return managerPojo;
 	}
-
+	
+	// DELETE FROM PENDING REIMBURSEMENTS TABLE
 	public ReimbursementPojo deletePendingRequest(int reimbursementId) throws SystemException {
 		LOG.info("Entered deletePendingRequest() in DAO");
 		ReimbursementPojo reimbursementPojo = null;
@@ -60,6 +60,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		return reimbursementPojo;
 	}
 	
+	// READ FROM PENDING REIMBURSEMENTS TABLE
 	public ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException {
 		
 		LOG.info("Entering readPendingRequests in Manager DAO");
@@ -87,7 +88,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		return pendingRequests;
 	}
 
-
+	// ADD TO RESOLVED REIMBURSEMENTS TABLE
 	public ReimbursementPojo addResolvedRequest(ReimbursementPojo reimbursementPojo) throws SystemException {
 		
 		LOG.info("Entering addResolvedRequests in Manager DAO");
@@ -122,7 +123,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		return resolvedRequest;
 	}
 		
-
+	// APPROVE OR DENY PENDING REIMBURSEMENT REQUESTS
 	public ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException {
 		// Step 2 - pass the connection from DBUtil to conn
 		Connection conn = DBUtil.obtainConnection();
@@ -145,7 +146,8 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		
 		return reimbursementPojo;
 	}
-
+	
+	// READ ALL VALUES FROM PENDING REQUESTS TABLE
 	public List<ReimbursementPojo> viewAllPendingRequests() throws SystemException {
 		
 		LOG.info("Entering viewAllPendingRequests in Manager DAO");
@@ -174,7 +176,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		return pendingRequests;
 	}
 	
-
+	// READ ALL VALUES FROM RESOLVED REQUESTS TABLE
 	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
 		
 		LOG.info("Entering viewResolvedRequests in Manager DAO");
@@ -203,22 +205,30 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		return resolvedRequest;
 	}
 	
-	
+	// READ ALL PENDING AND RESOLVED REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
 	public List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException {
 		LOG.info("Entering viewPendingRequests in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
-		List<ReimbursementPojo> pendingRequests = new ArrayList<ReimbursementPojo>();
+		List<ReimbursementPojo> allRequests = new ArrayList<ReimbursementPojo>();
 		
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "SELECT * FROM pending_requests WHERE requesting_employee_id="+employeeId;
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()) {
-				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getDate(4));
-				pendingRequests.add(reimbursementPojo);
+			// Read all pending reimbursements for a single employee from the database
+			String query1 = "SELECT * FROM pending_requests WHERE requesting_employee_id="+employeeId;
+			ResultSet rs1 = stmt.executeQuery(query1);
+			while(rs1.next()) {
+				// Add all pending reimbursements to all requests array
+				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs1.getInt(1), rs1.getInt(2), rs1.getDouble(3), rs1.getDate(4));
+				allRequests.add(reimbursementPojo);
+			}
+			String query2 = "SELECT * FROM resolved_requests WHERE requesting_employee_id="+employeeId;
+			ResultSet rs2 = stmt.executeQuery(query2);
+			while(rs2.next()) {
+				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs2.getInt(1), rs2.getInt(2), rs2.getDouble(3), rs2.getBoolean(4), rs2.getDate(5));
+				allRequests.add(reimbursementPojo);
 			}
 			
 		} catch (SQLException e) {
@@ -228,9 +238,10 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		
 		LOG.info("Exiting viewPendingRequests in Manager DAO");
 		
-		return pendingRequests;
+		return allRequests;
 	}
 	
+	// VIEW ALL EMPLOYEES
 	public List<EmployeePojo> viewAllEmployees() throws SystemException {
 
 		List<EmployeePojo> allEmployees = new ArrayList<EmployeePojo>();
