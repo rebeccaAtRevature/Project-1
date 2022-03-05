@@ -35,10 +35,12 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			// Add customer information to SQL table
 			String query1 = "INSERT INTO pending_reimbursements( requesting_employee_id, reimbursement_amount) VALUES("+reimbursementPojo.getRequestingEmployeeId()+", "+reimbursementPojo.getReimbursementAmount()+")";
 			int rows = stmt.executeUpdate(query1);
+			
 			System.out.println("INSERT query in submitRequest() was successful");
 			// Add reimbursement ID and date ID to reimbursement POJO for use in upper layers
 			String query2 = "SELECT reimbursement_id, date_of_request FROM pending_reimbursements WHERE reimbursement_id=MAX(reimbursement_id)";
 			ResultSet rs = stmt.executeQuery(query2);
+
 			System.out.println("SELECT query in submitRequest() was successful");
 			if(rs.next()) {
 				reimbursementPojo.setReimbursementId(rs.getInt(1));
@@ -46,7 +48,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			}
 			
 		} catch (SQLException e) {
-			
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		
@@ -67,6 +69,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			
 			String query = "SELECT * FROM pending_requests WHERE requesting_employee_id="+employeeId;
 			ResultSet rs = stmt.executeQuery(query);
+			System.out.println("Query executed successfully");
 			// iterate through the result set
 			while(rs.next()) {
 				// copy each record into a ReinbursementPojo object
@@ -76,12 +79,12 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			}
 			
 		} catch (SQLException e) {
-			
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		
 		
-		LOG.info("Entering viewPendingRequests in DAO");
+		LOG.info("Exiting viewPendingRequests in DAO");
 		return pendingRequests;
 	}
 	
@@ -98,6 +101,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			
 			String query = "SELECT * FROM resolved_requests WHERE requesting_employee_id="+employeeId;
 			ResultSet rs = stmt.executeQuery(query);
+			System.out.println("Query executed successfully");
 			// iterate through the result set
 			while(rs.next()) {
 				// copy each record into a ReinbursementPojo object
@@ -107,11 +111,11 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			}
 			
 		} catch (SQLException e) {
-			
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		
-		LOG.info("Entering viewResolvedRequests in DAO");
+		LOG.info("Exiting viewResolvedRequests in DAO");
 		return resolvedRequests;
 	}
 	
@@ -127,6 +131,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			Statement stmt = conn.createStatement();
 			String query = "SELECT * FROM employee_details WHERE employee_id="+employeeId;
 			ResultSet rs = stmt.executeQuery(query);
+			System.out.println("Query executed successfully");
 			
 			if(rs.next()) {
 				
@@ -134,6 +139,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			}
 			
 		} catch (SQLException e){
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		
@@ -154,8 +160,9 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			String query = "UPDATE employee_details SET employee_first_name="+employeePojo.getEmployeeFirstName()+", employee_last_name="+employeePojo.getEmployeeLastName()+", employee_contact="+employeePojo.getEmployeeFirstName()+", employee_address="+employeePojo.getEmployeeFirstName()+", employee_password="+employeePojo.getEmployeeFirstName()+" WHERE employeeId="+employeePojo.getEmployeeId();
 						
 			int rows = stmt.executeUpdate(query);
-			
+			System.out.println("Query executed successfully");
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		LOG.info("Exiting updateEmployee() in DAO");
