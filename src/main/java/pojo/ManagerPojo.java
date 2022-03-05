@@ -1,5 +1,7 @@
 package pojo;
 
+import java.util.Objects;
+
 public class ManagerPojo {
 	
 	private int managerId;
@@ -65,6 +67,36 @@ public class ManagerPojo {
 
 	public void setManagerImageURL(String employeeImageURL) {
 		this.managerImageURL = employeeImageURL;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(managerAddress, managerContact, managerFirstName, managerId, managerImageURL,
+				managerLastName, managerPassword);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ManagerPojo other = (ManagerPojo) obj;
+		return Objects.equals(managerAddress, other.managerAddress)
+				&& Objects.equals(managerContact, other.managerContact)
+				&& Objects.equals(managerFirstName, other.managerFirstName) && managerId == other.managerId
+				&& Objects.equals(managerImageURL, other.managerImageURL)
+				&& Objects.equals(managerLastName, other.managerLastName)
+				&& Objects.equals(managerPassword, other.managerPassword);
+	}
+
+	@Override
+	public String toString() {
+		return "ManagerPojo [managerId=" + managerId + ", managerFirstName=" + managerFirstName + ", managerLastName="
+				+ managerLastName + ", managerContact=" + managerContact + ", managerAddress=" + managerAddress
+				+ ", managerPassword=" + managerPassword + ", managerImageURL=" + managerImageURL + "]";
 	}
 
 	

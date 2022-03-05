@@ -65,7 +65,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 	// READ FROM PENDING REIMBURSEMENTS TABLE
 	public ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException {
 		
-		LOG.info("Entering readPendingRequest in Manager DAO");
+		LOG.info("Entering readPendingRequest() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
@@ -86,7 +86,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		}
 		
 		
-		LOG.info("Exiting readPendingRequest in Manager DAO");
+		LOG.info("Exiting readPendingRequest() in Manager DAO");
 		
 		return pendingRequest;
 	}
@@ -94,7 +94,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 	// ADD TO RESOLVED REIMBURSEMENTS TABLE
 	public ReimbursementPojo addResolvedRequest(ReimbursementPojo reimbursementPojo) throws SystemException {
 		
-		LOG.info("Entering addResolvedRequest in Manager DAO");
+		LOG.info("Entering addResolvedRequest() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
@@ -122,13 +122,14 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		}
 		
 		
-		LOG.info("Exiting addResolvedRequest in Manager DAO");
+		LOG.info("Exiting addResolvedRequest() in Manager DAO");
 		
 		return resolvedRequest;
 	}
 		
 	// APPROVE OR DENY PENDING REIMBURSEMENT REQUESTS
 	public ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException {
+		LOG.info("Entering approveOrDeny() in Manager DAO");
 		// Step 2 - pass the connection from DBUtil to conn
 		Connection conn = DBUtil.obtainConnection();
 		ReimbursementPojo returnPojo = null;
@@ -149,13 +150,14 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			throw new SystemException();
 		}
 		
+		LOG.info("Exiting approveOrDeny() in Manager DAO");
 		return reimbursementPojo;
 	}
 	
 	// READ ALL VALUES FROM PENDING REQUESTS TABLE
 	public List<ReimbursementPojo> viewAllPendingRequests() throws SystemException {
 		
-		LOG.info("Entering viewAllPendingRequests in Manager DAO");
+		LOG.info("Entering viewAllPendingRequests() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
@@ -177,7 +179,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		}
 		
 		
-		LOG.info("Exiting viewAllPendingRequests in Manager DAO");
+		LOG.info("Exiting viewAllPendingRequests() in Manager DAO");
 		
 		return pendingRequests;
 	}
@@ -185,7 +187,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 	// READ ALL VALUES FROM RESOLVED REQUESTS TABLE
 	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
 		
-		LOG.info("Entering viewResolvedRequests in Manager DAO");
+		LOG.info("Entering viewResolvedRequests() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
@@ -207,14 +209,14 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		}
 		
 		
-		LOG.info("Exiting viewResolvingRequests in Manager DAO");
+		LOG.info("Exiting viewResolvedRequests() in Manager DAO");
 		
 		return resolvedRequest;
 	}
 	
 	// READ ALL PENDING AND RESOLVED REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
 	public List<ReimbursementPojo> viewAllRequests(int employeeId) throws SystemException {
-		LOG.info("Entering viewPendingRequests in Manager DAO");
+		LOG.info("Entering viewPendingRequests() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
@@ -244,14 +246,14 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		}
 		
 		
-		LOG.info("Exiting viewPendingRequests in Manager DAO");
+		LOG.info("Exiting viewPendingRequests() in Manager DAO");
 		
 		return allRequests;
 	}
 	
 	// VIEW ALL EMPLOYEES
 	public List<EmployeePojo> viewAllEmployees() throws SystemException {
-		LOG.info("Entering viewAllEmployees in DAO");
+		LOG.info("Entering viewAllEmployees() in DAO");
 		List<EmployeePojo> allEmployees = new ArrayList<EmployeePojo>();
 
 		Connection conn = DBUtil.obtainConnection();
@@ -271,7 +273,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			e.printStackTrace();
 			throw new SystemException();
 		}
-		LOG.info("Exiting viewAllEmployees in DAO");
+		LOG.info("Exiting viewAllEmployees() in DAO");
 		return allEmployees;
 	}
 		
