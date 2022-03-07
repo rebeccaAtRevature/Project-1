@@ -16,11 +16,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public static final Logger LOG = LogManager.getLogger(EmployeeServiceImpl.class);
 	
 	EmployeeDao employeeDao;
-
+	
 	public EmployeeServiceImpl() {
 		employeeDao = new EmployeeJdbcDaoImpl();
 	}
-
+	// LOGIN
 	public EmployeePojo employeeLogin(int employeeId, String employeePassword) throws SystemException {
 		LOG.info("Entering employeeLogin() in Service Layer");
 		
@@ -33,23 +33,23 @@ public class EmployeeServiceImpl implements EmployeeService{
 		LOG.info("Exiting employeeLogin() in Service Layer");
 		return employeePojo;
 	}
-
-	public EmployeePojo fetchEmployee(int employeeId) throws SystemException {
-		return employeeDao.fetchEmployee(employeeId);
-	}
-
+	// SUBMIT A REIMBURSEMENT REQUEST
 	public ReimbursementPojo submitRequest(ReimbursementPojo reimbursementPojo) throws SystemException {
 		return employeeDao.submitRequest(reimbursementPojo);
 	}
-
+	// VIEW PENDING REIMBUSEMENT REQUEST FOR LOGGED IN EMPLOYEE
 	public List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException {
 		return employeeDao.viewPendingRequests(employeeId);
 	}
-
+	// VIEW RESOLVED REIMBURSEMENT REQUESTS FOR LOGGED IN EMPLOYEE
 	public List<ReimbursementPojo> viewResolvedRequests(int employeeId) throws SystemException {
 		return employeeDao.viewResolvedRequests(employeeId);
 	}
-
+	// READ FROM EMPLOYEE DETAILS TABLE
+	public EmployeePojo fetchEmployee(int employeeId) throws SystemException {
+		return employeeDao.fetchEmployee(employeeId);
+	}
+	// UPDATE EMPLOYEE DETAILS TABLE
 	public EmployeePojo updateEmployee(EmployeePojo employeePojo) throws SystemException {
 		return employeeDao.updateEmployee(employeePojo);
 	}
