@@ -37,8 +37,8 @@ public class ServiceTests {
 	public void testEmployeeLogin() {
 		try {
 			EmployeePojo actualResult = employeeService.employeeLogin(100,"1234");
-			EmployeePojo expectedResult = new EmployeePojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234", "");
-			when(employeeDao.fetchEmployee(100)).thenReturn(new EmployeePojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234", ""));
+			EmployeePojo expectedResult = new EmployeePojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234", "https://static.wikia.nocookie.net/monstersincmovies/images/8/8e/Celiamonsters%2Cinc..png/revision/latest/scale-to-width-down/323?cb=20130515201302");
+			when(employeeDao.fetchEmployee(100)).thenReturn(new EmployeePojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234", "https://static.wikia.nocookie.net/monstersincmovies/images/8/8e/Celiamonsters%2Cinc..png/revision/latest/scale-to-width-down/323?cb=20130515201302"));
 			assertEquals(actualResult,expectedResult);
 			//verify(employeeDao).fetchEmployee(100);
 			
@@ -53,8 +53,8 @@ public class ServiceTests {
 	public void testManagerLogin() {
 		try {
 			ManagerPojo actualResult = managerService.managerLogin(100,"1234");
-			ManagerPojo expectedResult = new ManagerPojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234", "");
-			when(managerDao.fetchManager(100)).thenReturn(new ManagerPojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234", ""));
+			ManagerPojo expectedResult = new ManagerPojo(100, "Roz", "Slug",  "(546)354-3218" , "168 Watching Ct." , "2468", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg/800px-Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg?20220222130835");
+			when(managerDao.fetchManager(100)).thenReturn(new ManagerPojo(100, "Roz", "Slug",  "(546)354-3218" , "168 Watching Ct." , "2468", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg/800px-Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg?20220222130835"));
 			assertEquals(actualResult,expectedResult);
 			//verify(employeeDao).fetchEmployee(100);
 			
