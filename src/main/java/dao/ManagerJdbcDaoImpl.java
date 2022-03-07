@@ -134,17 +134,19 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		Connection conn = DBUtil.obtainConnection();
 		ReimbursementPojo returnPojo = null;
 		try {
-			conn.setAutoCommit(false);
-			reimbursementPojo = deletePendingRequest(reimbursementPojo.getReimbursementId());
 			
+			conn.setAutoCommit(false);
+			
+			reimbursementPojo = deletePendingRequest(reimbursementPojo.getReimbursementId());
 			if(reimbursementPojo.isRequestApproved()) {
 				reimbursementPojo.setRequestApproved(true);
 			} else {
 				reimbursementPojo.setRequestApproved(false);
 			}
-			
 			addResolvedRequest(new ReimbursementPojo(reimbursementPojo.getRequestingEmployeeId(), reimbursementPojo.getReimbursementAmount(), reimbursementPojo.isRequestApproved()));
+			
 			conn.commit();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SystemException();

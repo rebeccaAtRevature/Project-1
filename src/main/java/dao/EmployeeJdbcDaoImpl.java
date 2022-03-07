@@ -67,7 +67,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "SELECT * FROM pending_requests WHERE requesting_employee_id="+employeeId;
+			String query = "SELECT * FROM pending_reimbursements WHERE requesting_employee_id="+employeeId;
 			ResultSet rs = stmt.executeQuery(query);
 			System.out.println("Query executed successfully");
 			// iterate through the result set
@@ -99,13 +99,13 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "SELECT * FROM resolved_requests WHERE requesting_employee_id="+employeeId;
+			String query = "SELECT * FROM resolved_reimbursements WHERE requesting_employee_id="+employeeId;
 			ResultSet rs = stmt.executeQuery(query);
 			System.out.println("Query executed successfully");
 			// iterate through the result set
 			while(rs.next()) {
 				// copy each record into a ReinbursementPojo object
-				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getDate(4));
+				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getDate(5));
 				// add the POJO to the collection
 				resolvedRequests.add(reimbursementPojo);
 			}
