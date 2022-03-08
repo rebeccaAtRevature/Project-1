@@ -53,7 +53,7 @@ public class ServiceTests {
 	public void testManagerLogin() {
 		try {
 			ManagerPojo actualResult = managerService.managerLogin(100,"1234");
-			ManagerPojo expectedResult = new ManagerPojo(100, "Roz", "Slug",  "(546)354-3218" , "168 Watching Ct." , "2468", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg/800px-Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg?20220222130835");
+			ManagerPojo expectedResult = new ManagerPojo(101, "Roz", "Slug",  "(546)354-3218" , "168 Watching Ct." , "2468", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg/800px-Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg?20220222130835");
 			when(managerDao.fetchManager(100)).thenReturn(new ManagerPojo(100, "Roz", "Slug",  "(546)354-3218" , "168 Watching Ct." , "2468", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg/800px-Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg?20220222130835"));
 			assertEquals(actualResult,expectedResult);
 			//verify(employeeDao).fetchEmployee(100);

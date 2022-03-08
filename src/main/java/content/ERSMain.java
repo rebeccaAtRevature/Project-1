@@ -76,6 +76,7 @@ public class ERSMain {
 
 		// READ ALL PENDING AND RESOLVED REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
 		myServer.get("/api/all-reims/{empid}", ctx -> {
+			System.out.println("viewAllRequests() Entering Lambda Function");
 			String employeeId = ctx.pathParam("empid");
 			List<ReimbursementPojo> allPendingReimbursement = managerService.viewAllRequests(Integer.parseInt(employeeId));
 			ctx.json(allPendingReimbursement);
