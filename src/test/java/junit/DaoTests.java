@@ -28,10 +28,62 @@ public class DaoTests {
 	
 	@Test
 	public void testSubmitRequest() {
-		ReimbursementPojo argument = new ReimbursementPojo(100,112,65);
+		ReimbursementPojo argument = new ReimbursementPojo(100,100,65,false);
 		try {
 			ReimbursementPojo actualResult = employeeDao.submitRequest(argument);
-			ReimbursementPojo expectedResult = new ReimbursementPojo(100,112,65);
+			ReimbursementPojo expectedResult = new ReimbursementPojo(100,100,65,false);
+			
+		} catch (SystemException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testViewPendingRequest() {
+		ReimbursementPojo argument = new ReimbursementPojo(100,100,65,false);
+		try {
+			ReimbursementPojo actualResult = employeeDao.submitRequest(argument);
+			ReimbursementPojo expectedResult = new ReimbursementPojo(100,100,65,false);
+			
+		} catch (SystemException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testViewResolvedRequest() {
+		ReimbursementPojo argument = new ReimbursementPojo(100,100,65,false);
+		try {
+			ReimbursementPojo actualResult = employeeDao.submitRequest(argument);
+			ReimbursementPojo expectedResult = new ReimbursementPojo(100,100,65,false);
+			
+		} catch (SystemException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testFetchEmployee() {
+		ReimbursementPojo argument = new ReimbursementPojo(100,100,65,false);
+		try {
+			ReimbursementPojo actualResult = employeeDao.submitRequest(argument);
+			ReimbursementPojo expectedResult = new ReimbursementPojo(100,100,65,false);
+			
+		} catch (SystemException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testUpdateEmployee() {
+		ReimbursementPojo argument = new ReimbursementPojo(100,100,65,false);
+		try {
+			ReimbursementPojo actualResult = employeeDao.submitRequest(argument);
+			ReimbursementPojo expectedResult = new ReimbursementPojo(100,100,65,false);
 			
 		} catch (SystemException e) {
 			

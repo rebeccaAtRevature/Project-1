@@ -32,19 +32,19 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			// Create a statement
 			Statement stmt = conn.createStatement();
 			
-			// Add customer information to SQL table
-			String query1 = "INSERT INTO pending_reimbursements( requesting_employee_id, reimbursement_amount) VALUES("+reimbursementPojo.getRequestingEmployeeId()+", "+reimbursementPojo.getReimbursementAmount()+")";
+			// reimbursement_pending will always be true for this method
+			String query1 = "INSERT INTO reimbursement_details( requesting_employee_id, reimbursement_amount, reimbursement_pending) VALUES("+reimbursementPojo.getRequestingEmployeeId()+", "+reimbursementPojo.getReimbursementAmount()+", 't')";
 			int rows = stmt.executeUpdate(query1);
-			
 			System.out.println("INSERT query in submitRequest() was successful");
+			
 			// Add reimbursement ID and date ID to reimbursement POJO for use in upper layers
-			String query2 = "SELECT reimbursement_id, date_of_request FROM pending_reimbursements WHERE reimbursement_id=MAX(reimbursement_id)";
+			String query2 = "SELECT MAX(reimbursement_id), MAX(date_of_request) FROM reimbursement_details";
 			ResultSet rs = stmt.executeQuery(query2);
-
 			System.out.println("SELECT query in submitRequest() was successful");
+			
 			if(rs.next()) {
 				reimbursementPojo.setReimbursementId(rs.getInt(1));
-				reimbursementPojo.setDateOfRequest(rs.getDate(2));
+				reimbursementPojo.setDateOfRequest(rs.getString(2));
 			}
 			
 		} catch (SQLException e) {
@@ -67,13 +67,13 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "SELECT * FROM pending_reimbursements WHERE requesting_employee_id="+employeeId;
+			String query = "SELECT * FROM reimbursement_details WHERE requesting_employee_id="+employeeId+" AND reimbursement_pending='t'";
 			ResultSet rs = stmt.executeQuery(query);
 			System.out.println("Query executed successfully");
 			// iterate through the result set
 			while(rs.next()) {
 				// copy each record into a ReinbursementPojo object
-				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getDate(4));
+				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getString(5));
 				// add the POJO to the collection
 				pendingRequests.add(reimbursementPojo);
 			}
@@ -99,13 +99,13 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "SELECT * FROM resolved_reimbursements WHERE requesting_employee_id="+employeeId;
+			String query = "SELECT reimbursement_details.reimbursement_id, resolved_reimbursement_id, requesting_employee_id, reimbursement_amount, reimbursement_pending, request_approved, date_of_request, date_resolved FROM reimbursement_details INNER JOIN resolved_reimbursements ON reimbursement_details.reimbursement_id=resolved_reimbursements.reimbursement_id WHERE requesting_employee_id="+employeeId+" ORDER BY resolved_reimbursements.date_resolved";
 			ResultSet rs = stmt.executeQuery(query);
 			System.out.println("Query executed successfully");
 			// iterate through the result set
 			while(rs.next()) {
 				// copy each record into a ReinbursementPojo object
-				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getDate(5));
+				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getString(5));
 				// add the POJO to the collection
 				resolvedRequests.add(reimbursementPojo);
 			}
