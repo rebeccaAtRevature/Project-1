@@ -20,8 +20,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 	
 	public static final Logger LOG = LogManager.getLogger(EmployeeServiceImpl.class);
 
-	// Add collections here for any methods that return a list
-	
+	// READ FROM MANAGER DETAILS TABLE
 	public ManagerPojo fetchManager(int managerId) throws SystemException {
 		
 		LOG.info("Entering fetchManager in DAO");
@@ -36,6 +35,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 				managerPojo = new ManagerPojo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		
@@ -43,73 +43,121 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		
 		return managerPojo;
 	}
-
+	
+	// UPDATE REIMBURSEMENTS TABLE
+	public ReimbursementPojo updatePendingRequest(int reimbursementId) throws SystemException {
+		LOG.info("Entered updatePendingRequest() in DAO");
+		ReimbursementPojo reimbursementPojo = null;
+		Connection conn = DBUtil.obtainConnection();
+		try {
+			Statement stmt = conn.createStatement();
+			reimbursementPojo = readPendingRequest(reimbursementId);
+			
+			// Update request in database
+			String query1 = "UPDATE reimbursement_details SET reimbursement_pending='f' WHERE reimbursement_id=" + reimbursementId;
+			int rows = stmt.executeUpdate(query1);
+			
+			// Update request in Java
+			reimbursementPojo.setReimbursementPending(false);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SystemException();
+		}
+		LOG.info("Exited updatePendingRequest() in DAO");
+		return reimbursementPojo;
+	}
+	
+	// READ A SPECIFIC PENDING REIMBURSEMENT FROM TABLE
 	public ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException {
 		
-		LOG.info("Entering readPendingRequests in Manager DAO");
+		LOG.info("Entering readPendingRequest() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
-		ReimbursementPojo pendingRequests = null;
+		ReimbursementPojo pendingRequest = null;
 		
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "SELECT * FROM pending_reimbursements WHERE reimbursement_id="+reimbursementId;
+			String query = "SELECT * FROM reimbursement_details WHERE reimbursement_id="+reimbursementId+" AND reimbursement_pending='t'";
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				 pendingRequests = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getDate(4));
+				 pendingRequest = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getString(5));
 			}
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		
 		
-		LOG.info("Exiting readPendingRequests in Manager DAO");
+		LOG.info("Exiting readPendingRequest() in Manager DAO");
 		
-		return pendingRequests;
+		return pendingRequest;
 	}
 
-
+	// ADD TO RESOLVED REIMBURSEMENTS TABLE
 	public ReimbursementPojo addResolvedRequest(ReimbursementPojo reimbursementPojo) throws SystemException {
 		
-		LOG.info("Entering addResolvedRequests in Manager DAO");
+		LOG.info("Entering addResolvedRequest() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
-		
-		ReimbursementPojo resolvedRequest = null;
 		
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "INSERT INTO resolved_reimbursements(requesting_employee_id, reimbursement_amount, request_approved, date_resolved) VALUES(" + 
-			reimbursementPojo.getRequestingEmployeeId() + "," + reimbursementPojo.getReimbursementAmount() + "," + reimbursementPojo.isRequestApproved() + "," 
-					+ reimbursementPojo.getDateResolved() + ")";
+			// For add resolved requests, reimbursementPending is always false
+			String query = "INSERT INTO resolved_reimbursements(reimbursement_id, request_approved) VALUES(" + reimbursementPojo.getReimbursementId() + ", '" + reimbursementPojo.isRequestApproved() + "')";
 			int rows = stmt.executeUpdate(query);
 			System.out.println("INSERT query in addResolvedRequest() was successful");
-			String query2 = "SELECT reimbursement_id, date_resolved FROM resolved_reimbursements WHERE reimbursement_id=MAX(reimbursement_id)";
+			String query2 = "SELECT MAX(reimbursement_id), MAX(date_resolved) FROM resolved_reimbursements";
 			ResultSet rs = stmt.executeQuery(query2);
 			System.out.println("SELECT query in addResolvedRequest() was successful");
 			if(rs.next()) {
-				reimbursementPojo.setReimbusermentId(rs.getInt(1));
-				reimbursementPojo.setDateResolved(rs.getDate(2));
+				reimbursementPojo.setReimbursementId(rs.getInt(1));
+				reimbursementPojo.setDateResolved(rs.getString(2));
 			}
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		
 		
-		LOG.info("Exiting addResolvedRequests in Manager DAO");
+		LOG.info("Exiting addResolvedRequest() in Manager DAO");
 		
-		return resolvedRequest;
+		return reimbursementPojo;
 	}
 		
-
+	// APPROVE OR DENY PENDING REIMBURSEMENT REQUESTS
+	public ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException {
+		LOG.info("Entering approveOrDeny() in Manager DAO");
+		// Step 2 - pass the connection from DBUtil to conn
+		Connection conn = DBUtil.obtainConnection();
+		try {
+			
+			conn.setAutoCommit(false);
+			
+			reimbursementPojo = updatePendingRequest(reimbursementPojo.getReimbursementId());
+			
+			addResolvedRequest(new ReimbursementPojo(reimbursementPojo.getReimbursementId(), reimbursementPojo.isRequestApproved()));
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new SystemException();
+		}
+		
+		LOG.info("Exiting approveOrDeny() in Manager DAO");
+		return reimbursementPojo;
+	}
+	
+	// READ ALL VALUES FROM PENDING REQUESTS TABLE
 	public List<ReimbursementPojo> viewAllPendingRequests() throws SystemException {
 		
-		LOG.info("Entering viewAllPendingRequests in Manager DAO");
+		LOG.info("Entering viewAllPendingRequests() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
@@ -118,27 +166,28 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "SELECT * FROM pending_reimbursements";
+			String query = "SELECT * FROM reimbursement_details WHERE reimbursement_pending='t'";
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getDate(4));
+				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getString(5));
 				pendingRequests.add(reimbursementPojo);
 			}
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		
 		
-		LOG.info("Exiting viewAllPendingRequests in Manager DAO");
+		LOG.info("Exiting viewAllPendingRequests() in Manager DAO");
 		
 		return pendingRequests;
 	}
 	
-
-	public List<ReimbursementPojo> veiwAllResolvedRequests() throws SystemException {
+	// READ ALL VALUES FROM RESOLVED REQUESTS TABLE
+	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
 		
-		LOG.info("Entering viewResolvedRequests in Manager DAO");
+		LOG.info("Entering viewResolvedRequests() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
@@ -147,77 +196,79 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "SELECT * FROM resolved_reimbursement";
+			String query = "SELECT resolved_reimbursement_id, reimbursement_details.reimbursement_id, requesting_employee_id, reimbursement_amount, reimbursement_pending, request_approved, date_of_request, date_resolved FROM reimbursement_details INNER JOIN resolved_reimbursements ON reimbursement_details.reimbursement_id=resolved_reimbursements.reimbursement_id ORDER BY resolved_reimbursements.date_resolved";
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getDate(5));
+				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getDouble(4), rs.getBoolean(5), rs.getBoolean(6), rs.getString(7), rs.getString(8));
 				resolvedRequest.add(reimbursementPojo);
 			}
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		
 		
-		LOG.info("Exiting viewResolvingRequests in Manager DAO");
+		LOG.info("Exiting viewResolvedRequests() in Manager DAO");
 		
 		return resolvedRequest;
 	}
 	
-	
-	public List<ReimbursementPojo> viewPendingRequests(int employeeId) throws SystemException {
-		LOG.info("Entering viewPendingRequests in Manager DAO");
+	// READ ALL PENDING AND RESOLVED REIMBURSEMENTS FOR ANY SINGLE EMPLOYEE
+	public List<ReimbursementPojo> viewAllRequests(int employeeId) throws SystemException {
+		LOG.info("Entering viewAllRequests() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
-		List<ReimbursementPojo> pendingRequests = new ArrayList<ReimbursementPojo>();
+		List<ReimbursementPojo> allRequests = new ArrayList<ReimbursementPojo>();
 		
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "SELECT * FROM pending_requests WHERE requesting_employee_id="+employeeId;
+			// Make a left join to pull information from resolved_reimbursements for 
+			String query = "SELECT resolved_reimbursement_id, reimbursement_details.reimbursement_id, requesting_employee_id, reimbursement_amount, reimbursement_pending, request_approved, date_of_request, date_resolved FROM reimbursement_details LEFT JOIN resolved_reimbursements ON reimbursement_details.reimbursement_id=resolved_reimbursements.reimbursement_id WHERE requesting_employee_id="+employeeId+" ORDER BY reimbursement_details.reimbursement_id";
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getDate(4));
-				pendingRequests.add(reimbursementPojo);
+				// Add all pending reimbursements to all requests array
+				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getDouble(4), rs.getBoolean(5), rs.getBoolean(6), rs.getString(7), rs.getString(8));
+				allRequests.add(reimbursementPojo);
 			}
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SystemException();
 		}
 		
 		
-		LOG.info("Exiting viewPendingRequests in Manager DAO");
+		LOG.info("Exiting viewAllRequests() in Manager DAO");
 		
-		return pendingRequests;
+		return allRequests;
 	}
 	
+	// VIEW ALL EMPLOYEES
 	public List<EmployeePojo> viewAllEmployees() throws SystemException {
-
+		LOG.info("Entering viewAllEmployees() in DAO");
 		List<EmployeePojo> allEmployees = new ArrayList<EmployeePojo>();
 
 		Connection conn = DBUtil.obtainConnection();
 
 		try {
 			Statement stmt = conn.createStatement();
-
 			String query = "SELECT * FROM employee_details";
-
+			
 			ResultSet rs = stmt.executeQuery(query);
-
-
+			System.out.println(rs);
 			while (rs.next()) {
-
 				EmployeePojo employeePojo = new EmployeePojo(rs.getInt(1), rs.getString(2), rs.getString(3),
-						rs.getString(4), rs.getString(5), rs.getString(6), rs.getNString(7));
-
+						rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
 				allEmployees.add(employeePojo);
 			}
-
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new SystemException();
 		}
-
+		LOG.info("Exiting viewAllEmployees() in DAO");
 		return allEmployees;
 	}
+		
 }

@@ -2,16 +2,20 @@ package junit;
 
 import static org.mockito.Mockito.mock;
 
+import java.sql.Statement;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import dao.EmployeeDao;
+import dao.EmployeeJdbcDaoImpl;
 import exceptions.SystemException;
 import pojo.ReimbursementPojo;
 
 public class DaoTests {
 	
 	// Create a mock of the Statement class to avoid accessing the database
-	EmployeeDao employeeDao = mock(EmployeeJdbcDaoImpl.class);
+	Statement stmt = mock(Statement.class);
 	
 	
 	static EmployeeDao employeeDao;
@@ -24,10 +28,62 @@ public class DaoTests {
 	
 	@Test
 	public void testSubmitRequest() {
-		ReimbursementPojo argument = new ReimbursementPojo(100,112,65);
+		ReimbursementPojo argument = new ReimbursementPojo(100,100,65,false);
 		try {
 			ReimbursementPojo actualResult = employeeDao.submitRequest(argument);
-			ReimbursementPojo expectedResult = new ReimbursementPojo(100,112,65);
+			ReimbursementPojo expectedResult = new ReimbursementPojo(100,100,65,false);
+			
+		} catch (SystemException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testViewPendingRequest() {
+		ReimbursementPojo argument = new ReimbursementPojo(100,100,65,false);
+		try {
+			ReimbursementPojo actualResult = employeeDao.submitRequest(argument);
+			ReimbursementPojo expectedResult = new ReimbursementPojo(100,100,65,false);
+			
+		} catch (SystemException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testViewResolvedRequest() {
+		ReimbursementPojo argument = new ReimbursementPojo(100,100,65,false);
+		try {
+			ReimbursementPojo actualResult = employeeDao.submitRequest(argument);
+			ReimbursementPojo expectedResult = new ReimbursementPojo(100,100,65,false);
+			
+		} catch (SystemException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testFetchEmployee() {
+		ReimbursementPojo argument = new ReimbursementPojo(100,100,65,false);
+		try {
+			ReimbursementPojo actualResult = employeeDao.submitRequest(argument);
+			ReimbursementPojo expectedResult = new ReimbursementPojo(100,100,65,false);
+			
+		} catch (SystemException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testUpdateEmployee() {
+		ReimbursementPojo argument = new ReimbursementPojo(100,100,65,false);
+		try {
+			ReimbursementPojo actualResult = employeeDao.submitRequest(argument);
+			ReimbursementPojo expectedResult = new ReimbursementPojo(100,100,65,false);
 			
 		} catch (SystemException e) {
 			
