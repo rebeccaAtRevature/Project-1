@@ -31,40 +31,36 @@ public class ManagerServiceImpl implements ManagerService{
 		return managerPojo;
 	}
 
-
-	@Override
 	public ReimbursementPojo readPendingRequest(int reimbursementId) throws SystemException {
+		// TODO Auto-generated method stub
 		return managerDao.readPendingRequest(reimbursementId);
 	}
 
-
-	@Override
 	public ReimbursementPojo approveOrDeny(ReimbursementPojo reimbursementPojo) throws SystemException {
+		// TODO Auto-generated method stub
 		return managerDao.approveOrDeny(reimbursementPojo);
 	}
 
-
-	@Override
 	public List<ReimbursementPojo> viewAllPendingRequests() throws SystemException {
-		return managerDao.viewAllPendingRequests();
-	}
-
-	@Override
-	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
+		// TODO Auto-generated method stub
 		return managerDao.viewAllResolvedRequests();
 	}
 
+	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
+		// TODO Auto-generated method stub
+		return managerDao.viewAllResolvedRequests();
+	}
 
-	@Override
 	public List<ReimbursementPojo> viewAllRequests(int employeeId) throws SystemException {
+		// TODO Auto-generated method stub
 		return managerDao.viewAllRequests(employeeId);
 	}
 
-
-	@Override
 	public List<EmployeePojo> viewAllEmployees() throws SystemException {
+		// TODO Auto-generated method stub
 		return managerDao.viewAllEmployees();
 	}
 
  
 }
+
