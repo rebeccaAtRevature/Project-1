@@ -53,7 +53,7 @@ public class ERSMain {
 		});
 
 		// APPROVE OR DENY PENDING REIMBURSEMENT REQUESTS
-		myServer.post("/api/appdeny/{reim}", ctx -> {
+		myServer.post("/api/appdeny", ctx -> {
 			System.out.println("Entering the approve or deny lambda function");
 			// there is an incoming book json in the request body, fetch the request body and store it in the POJO
 			ReimbursementPojo reimbursmentPojo = ctx.bodyAsClass(ReimbursementPojo.class);
@@ -102,7 +102,7 @@ public class ERSMain {
 		});
 
 		//SUBMIT REIMBURSEMENT REQUEST
-		myServer.post("/api/reim/{reim}", ctx ->{
+		myServer.post("/api/p-reims", ctx ->{
 			System.out.println("Entered submit lambda function");
 			ReimbursementPojo reimbursementPojo = ctx.bodyAsClass(ReimbursementPojo.class);
 			ReimbursementPojo submitRequest = employeeService.submitRequest(reimbursementPojo);
@@ -134,7 +134,7 @@ public class ERSMain {
 		});
 
 		//UPDATE EMPLOYEE INFORMATION
-		myServer.put("/api/u-emp/{empid}", ctx ->{
+		myServer.put("/api/employees", ctx ->{
 			System.out.println("Entered emplinfo lambda function");
 			EmployeePojo employeePojo = ctx.bodyAsClass(EmployeePojo.class);
 			EmployeePojo updateEmployee = employeeService.updateEmployee(employeePojo);

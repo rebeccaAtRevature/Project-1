@@ -52,8 +52,14 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		try {
 			Statement stmt = conn.createStatement();
 			reimbursementPojo = readPendingRequest(reimbursementId);
-			String query = "UPDATE reimbursement_details SET reimbursement_pending='f' WHERE reimbursement_id=" + reimbursementId;
-			int rows = stmt.executeUpdate(query);
+			
+			// Update request in database
+			String query1 = "UPDATE reimbursement_details SET reimbursement_pending='f' WHERE reimbursement_id=" + reimbursementId;
+			int rows = stmt.executeUpdate(query1);
+			
+			// Update request in Java
+			reimbursementPojo.setReimbursementPending(false);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SystemException();
@@ -98,8 +104,6 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		
 		Connection conn = DBUtil.obtainConnection();
 		
-		ReimbursementPojo resolvedRequest = null;
-		
 		try {
 			Statement stmt = conn.createStatement();
 			
@@ -107,7 +111,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			String query = "INSERT INTO resolved_reimbursements(reimbursement_id, request_approved) VALUES(" + reimbursementPojo.getReimbursementId() + ", '" + reimbursementPojo.isRequestApproved() + "')";
 			int rows = stmt.executeUpdate(query);
 			System.out.println("INSERT query in addResolvedRequest() was successful");
-			String query2 = "SELECT reimbursement_id, date_resolved FROM resolved_reimbursements WHERE reimbursement_id=MAX(reimbursement_id)";
+			String query2 = "SELECT MAX(reimbursement_id), MAX(date_resolved) FROM resolved_reimbursements";
 			ResultSet rs = stmt.executeQuery(query2);
 			System.out.println("SELECT query in addResolvedRequest() was successful");
 			if(rs.next()) {
@@ -123,7 +127,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		
 		LOG.info("Exiting addResolvedRequest() in Manager DAO");
 		
-		return resolvedRequest;
+		return reimbursementPojo;
 	}
 		
 	// APPROVE OR DENY PENDING REIMBURSEMENT REQUESTS
@@ -136,11 +140,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			conn.setAutoCommit(false);
 			
 			reimbursementPojo = updatePendingRequest(reimbursementPojo.getReimbursementId());
-			if(reimbursementPojo.isRequestApproved()) {
-				reimbursementPojo.setRequestApproved(true);
-			} else {
-				reimbursementPojo.setRequestApproved(false);
-			}
+			
 			addResolvedRequest(new ReimbursementPojo(reimbursementPojo.getReimbursementId(), reimbursementPojo.isRequestApproved()));
 			
 			conn.commit();
@@ -166,7 +166,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query = "SELECT * FROM pending_reimbursements WHERE reimbursement_pending='t'";
+			String query = "SELECT * FROM reimbursement_details WHERE reimbursement_pending='t'";
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getString(5));

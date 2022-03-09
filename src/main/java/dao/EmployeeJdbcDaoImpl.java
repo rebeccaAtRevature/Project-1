@@ -105,7 +105,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			// iterate through the result set
 			while(rs.next()) {
 				// copy each record into a ReinbursementPojo object
-				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getString(5));
+				ReimbursementPojo reimbursementPojo = new ReimbursementPojo(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getDouble(4), rs.getBoolean(5), rs.getBoolean(6), rs.getString(7), rs.getString(8));
 				// add the POJO to the collection
 				resolvedRequests.add(reimbursementPojo);
 			}
@@ -157,7 +157,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			Statement stmt = conn.createStatement();
 			
 			// Update all values in employee_details table
-			String query = "UPDATE employee_details SET employee_first_name="+employeePojo.getEmployeeFirstName()+", employee_last_name="+employeePojo.getEmployeeLastName()+", employee_contact="+employeePojo.getEmployeeFirstName()+", employee_address="+employeePojo.getEmployeeFirstName()+", employee_password="+employeePojo.getEmployeeFirstName()+" WHERE employeeId="+employeePojo.getEmployeeId();
+			String query = "UPDATE employee_details SET employee_first_name='"+employeePojo.getEmployeeFirstName()+"', employee_last_name='"+employeePojo.getEmployeeLastName()+"', employee_phone_number='"+employeePojo.getEmployeePhoneNumber()+"', employee_address='"+employeePojo.getEmployeeAddress()+"', employee_password='"+employeePojo.getEmployeePassword()+"', employee_image_url='"+employeePojo.getEmployeeImageUrl()+"' WHERE employee_Id="+employeePojo.getEmployeeId();
 						
 			int rows = stmt.executeUpdate(query);
 			System.out.println("Query executed successfully");
@@ -166,7 +166,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			throw new SystemException();
 		}
 		LOG.info("Exiting updateEmployee() in DAO");
-		return null;
+		return employeePojo;
 	}
 	
 }
