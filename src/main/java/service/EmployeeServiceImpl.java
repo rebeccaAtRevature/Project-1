@@ -26,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 		EmployeePojo employeePojo = null;
 		EmployeePojo loginAttempt = employeeDao.fetchEmployee(employeeId);
-		if (loginAttempt.getPassword().equals(employeePassword)) {
+		if (loginAttempt.getEmployeePassword().equals(employeePassword)) {
 			employeePojo = loginAttempt;
 		}
 		

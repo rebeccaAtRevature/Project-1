@@ -9,35 +9,30 @@ public class EmployeePojo {
 	private String employeeLastName;
 	private String employeePhoneNumber;
 	private String employeeAddress;
-	private String password;
+	private String employeePassword;
 	private String employeeImageUrl;
 	
-	// Constructor
-		public EmployeePojo(int employeeId, String employeeFirstName, String employeeLastName, String employeePhoneNumber,
-				String employeeAddress, String password) {
-			super();
-			this.employeeId = employeeId;
-			this.employeeFirstName = employeeFirstName;
-			this.employeeLastName = employeeLastName;
-			this.employeePhoneNumber = employeePhoneNumber;
-			this.employeeAddress = employeeAddress;
-			this.password = password;
-		}
+	
+	public EmployeePojo() {
 
-	// Constructor
+	}
+
+	
 	public EmployeePojo(int employeeId, String employeeFirstName, String employeeLastName, String employeePhoneNumber,
-			String employeeAddress, String password, String employeeImageUrl) {
+			String employeeAddress, String employeePassword, String employeeImageUrl) {
 		super();
 		this.employeeId = employeeId;
 		this.employeeFirstName = employeeFirstName;
 		this.employeeLastName = employeeLastName;
 		this.employeePhoneNumber = employeePhoneNumber;
 		this.employeeAddress = employeeAddress;
-		this.password = password;
+		this.employeePassword = employeePassword;
 		this.employeeImageUrl = employeeImageUrl;
 	}
-	
-	// Getters and Setters
+
+
+
+
 	public int getEmployeeId() {
 		return employeeId;
 	}
@@ -78,12 +73,12 @@ public class EmployeePojo {
 		this.employeeAddress = employeeAddress;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getEmployeePassword() {
+		return employeePassword;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setEmployeePassword(String employeePassword) {
+		this.employeePassword = employeePassword;
 	}
 
 	public String getEmployeeImageUrl() {
@@ -98,13 +93,14 @@ public class EmployeePojo {
 	public String toString() {
 		return "EmployeePojo [employeeId=" + employeeId + ", employeeFirstName=" + employeeFirstName
 				+ ", employeeLastName=" + employeeLastName + ", employeePhoneNumber=" + employeePhoneNumber
-				+ ", employeeAddress=" + employeeAddress + ", password=" + password + "]";
+				+ ", employeeAddress=" + employeeAddress + ", employeePassword=" + employeePassword
+				+ ", employeeImageUrl=" + employeeImageUrl + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(employeeAddress, employeeFirstName, employeeId, employeeLastName, employeePhoneNumber,
-				password);
+		return Objects.hash(employeeAddress, employeeFirstName, employeeId, employeeImageUrl, employeeLastName,
+				employeePassword, employeePhoneNumber);
 	}
 
 	@Override
@@ -118,9 +114,10 @@ public class EmployeePojo {
 		EmployeePojo other = (EmployeePojo) obj;
 		return Objects.equals(employeeAddress, other.employeeAddress)
 				&& Objects.equals(employeeFirstName, other.employeeFirstName) && employeeId == other.employeeId
+				&& Objects.equals(employeeImageUrl, other.employeeImageUrl)
 				&& Objects.equals(employeeLastName, other.employeeLastName)
-				&& Objects.equals(employeePhoneNumber, other.employeePhoneNumber)
-				&& Objects.equals(password, other.password);
+				&& Objects.equals(employeePassword, other.employeePassword)
+				&& Objects.equals(employeePhoneNumber, other.employeePhoneNumber);
 	}
-		
+	
 }
