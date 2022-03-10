@@ -45,27 +45,29 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 	}
 	
 	// UPDATE REIMBURSEMENTS TABLE
-	public ReimbursementPojo updatePendingRequest(int reimbursementId) throws SystemException {
+	public ReimbursementPojo updatePendingRequest(ReimbursementPojo reimbursementPojo) throws SystemException {
 		LOG.info("Entered updatePendingRequest() in DAO");
-		ReimbursementPojo reimbursementPojo = null;
+		ReimbursementPojo returnReimbursement = null;
 		Connection conn = DBUtil.obtainConnection();
 		try {
 			Statement stmt = conn.createStatement();
-			reimbursementPojo = readPendingRequest(reimbursementId);
+			returnReimbursement = readPendingRequest(reimbursementPojo.getReimbursementId());
+			
+			
 			
 			// Update request in database
-			String query1 = "UPDATE reimbursement_details SET reimbursement_pending='f' WHERE reimbursement_id=" + reimbursementId;
+			String query1 = "UPDATE reimbursement_details SET reimbursement_pending='f' WHERE reimbursement_id=" + returnReimbursement.getReimbursementId();
 			int rows = stmt.executeUpdate(query1);
 			
 			// Update request in Java
-			reimbursementPojo.setReimbursementPending(false);
+			returnReimbursement.setReimbursementPending(false);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SystemException();
 		}
 		LOG.info("Exited updatePendingRequest() in DAO");
-		return reimbursementPojo;
+		return returnReimbursement;
 	}
 	
 	// READ A SPECIFIC PENDING REIMBURSEMENT FROM TABLE
@@ -106,8 +108,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		
 		try {
 			Statement stmt = conn.createStatement();
-			
-			// For add resolved requests, reimbursementPending is always false
+			System.out.println(reimbursementPojo.isRequestApproved());
 			String query = "INSERT INTO resolved_reimbursements(reimbursement_id, request_approved) VALUES(" + reimbursementPojo.getReimbursementId() + ", '" + reimbursementPojo.isRequestApproved() + "')";
 			int rows = stmt.executeUpdate(query);
 			System.out.println("INSERT query in addResolvedRequest() was successful");
@@ -135,13 +136,21 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		LOG.info("Entering approveOrDeny() in Manager DAO");
 		// Step 2 - pass the connection from DBUtil to conn
 		Connection conn = DBUtil.obtainConnection();
+		
+		ReimbursementPojo returnReimbursement = null;
 		try {
 			
 			conn.setAutoCommit(false);
 			
-			reimbursementPojo = updatePendingRequest(reimbursementPojo.getReimbursementId());
+			System.out.println(reimbursementPojo.isRequestApproved());
 			
 			addResolvedRequest(new ReimbursementPojo(reimbursementPojo.getReimbursementId(), reimbursementPojo.isRequestApproved()));
+			
+			returnReimbursement = updatePendingRequest(reimbursementPojo);
+			
+			// update request will reset request approved to false, fix that here.
+			returnReimbursement.setRequestApproved(reimbursementPojo.isRequestApproved());
+			System.out.println(returnReimbursement.isRequestApproved());
 			
 			conn.commit();
 			
@@ -151,7 +160,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		}
 		
 		LOG.info("Exiting approveOrDeny() in Manager DAO");
-		return reimbursementPojo;
+		return returnReimbursement;
 	}
 	
 	// READ ALL VALUES FROM PENDING REQUESTS TABLE
@@ -187,7 +196,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 	// READ ALL VALUES FROM RESOLVED REQUESTS TABLE
 	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {
 		
-		LOG.info("Entering viewResolvedRequests() in Manager DAO");
+		LOG.info("Entering viewAllResolvedRequests() in Manager DAO");
 		
 		Connection conn = DBUtil.obtainConnection();
 		
@@ -209,7 +218,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		}
 		
 		
-		LOG.info("Exiting viewResolvedRequests() in Manager DAO");
+		LOG.info("Exiting viewAllResolvedRequests() in Manager DAO");
 		
 		return resolvedRequest;
 	}
