@@ -43,7 +43,7 @@ public class ManagerServiceImpl implements ManagerService{
 
 	public List<ReimbursementPojo> viewAllPendingRequests() throws SystemException {
 		// TODO Auto-generated method stub
-		return managerDao.viewAllResolvedRequests();
+		return managerDao.viewAllPendingRequests();
 	}
 
 	public List<ReimbursementPojo> viewAllResolvedRequests() throws SystemException {

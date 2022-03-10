@@ -97,11 +97,12 @@ public class EmployeePojo {
 				+ ", employeeImageUrl=" + employeeImageUrl + "]";
 	}
 
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(employeeAddress, employeeFirstName, employeeId, employeeImageUrl, employeeLastName,
-				employeePassword, employeePhoneNumber);
+		return Objects.hash(employeeFirstName, employeeId, employeeLastName, employeePassword);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -112,12 +113,11 @@ public class EmployeePojo {
 		if (getClass() != obj.getClass())
 			return false;
 		EmployeePojo other = (EmployeePojo) obj;
-		return Objects.equals(employeeAddress, other.employeeAddress)
-				&& Objects.equals(employeeFirstName, other.employeeFirstName) && employeeId == other.employeeId
-				&& Objects.equals(employeeImageUrl, other.employeeImageUrl)
+		return Objects.equals(employeeFirstName, other.employeeFirstName) && employeeId == other.employeeId
 				&& Objects.equals(employeeLastName, other.employeeLastName)
-				&& Objects.equals(employeePassword, other.employeePassword)
-				&& Objects.equals(employeePhoneNumber, other.employeePhoneNumber);
+				&& Objects.equals(employeePassword, other.employeePassword);
 	}
+
+	
 	
 }

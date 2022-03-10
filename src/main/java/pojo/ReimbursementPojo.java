@@ -1,5 +1,7 @@
 package pojo;
 
+import java.util.Objects;
+
 public class ReimbursementPojo {
 	private int reimbursementId;
 	private int resolvedReimbursementId;
@@ -123,5 +125,36 @@ public class ReimbursementPojo {
 	public void setDateResolved(String dateResolved) {
 		this.dateResolved = dateResolved;
 	}
+	
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(reimbursementAmount, reimbursementId, reimbursementPending, requestApproved,
+				requestingEmployeeId, resolvedReimbursementId);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ReimbursementPojo other = (ReimbursementPojo) obj;
+		return Double.doubleToLongBits(reimbursementAmount) == Double.doubleToLongBits(other.reimbursementAmount)
+				&& reimbursementId == other.reimbursementId && reimbursementPending == other.reimbursementPending
+				&& requestApproved == other.requestApproved && requestingEmployeeId == other.requestingEmployeeId
+				&& resolvedReimbursementId == other.resolvedReimbursementId;
+	}
+
+	@Override
+	public String toString() {
+		return "ReimbursementPojo [reimbursementId=" + reimbursementId + ", resolvedReimbursementId="
+				+ resolvedReimbursementId + ", requestingEmployeeId=" + requestingEmployeeId + ", reimbursementAmount="
+				+ reimbursementAmount + ", reimbursementPending=" + reimbursementPending + ", requestApproved="
+				+ requestApproved + "]";
+	}
+
+	
 }

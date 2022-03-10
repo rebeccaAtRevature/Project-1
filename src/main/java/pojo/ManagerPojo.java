@@ -69,10 +69,11 @@ public class ManagerPojo {
 		this.managerImageURL = employeeImageURL;
 	}
 
+	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(managerAddress, managerContact, managerFirstName, managerId, managerImageURL,
-				managerLastName, managerPassword);
+		return Objects.hash(managerFirstName, managerId, managerLastName, managerPassword);
 	}
 
 	@Override
@@ -84,10 +85,7 @@ public class ManagerPojo {
 		if (getClass() != obj.getClass())
 			return false;
 		ManagerPojo other = (ManagerPojo) obj;
-		return Objects.equals(managerAddress, other.managerAddress)
-				&& Objects.equals(managerContact, other.managerContact)
-				&& Objects.equals(managerFirstName, other.managerFirstName) && managerId == other.managerId
-				&& Objects.equals(managerImageURL, other.managerImageURL)
+		return Objects.equals(managerFirstName, other.managerFirstName) && managerId == other.managerId
 				&& Objects.equals(managerLastName, other.managerLastName)
 				&& Objects.equals(managerPassword, other.managerPassword);
 	}
