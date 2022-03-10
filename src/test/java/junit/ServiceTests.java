@@ -37,8 +37,8 @@ public class ServiceTests {
 	public void testEmployeeLogin() {
 		try {
 			EmployeePojo actualResult = employeeService.employeeLogin(100,"1234");
-			EmployeePojo expectedResult = new EmployeePojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234", "https://static.wikia.nocookie.net/monstersincmovies/images/8/8e/Celiamonsters%2Cinc..png/revision/latest/scale-to-width-down/323?cb=20130515201302");
-			when(employeeDao.fetchEmployee(100)).thenReturn(new EmployeePojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234", "https://static.wikia.nocookie.net/monstersincmovies/images/8/8e/Celiamonsters%2Cinc..png/revision/latest/scale-to-width-down/323?cb=20130515201302"));
+			EmployeePojo expectedResult = new EmployeePojo(100, "Celia", "Mae",  "(546)654-1654" , "665 Weelia Ct." , "1234", "https://images.unsplash.com/photo-1611432579699-484f7990b127?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGVhZHNob3R8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60");
+			when(employeeDao.fetchEmployee(100)).thenReturn(new EmployeePojo(100, "Celia", "Mae",  "(546)654-1654" , "665 Weelia Ct." , "1234", "https://images.unsplash.com/photo-1611432579699-484f7990b127?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGVhZHNob3R8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"));
 			assertEquals(actualResult,expectedResult);
 			//verify(employeeDao).fetchEmployee(100);
 			
@@ -52,9 +52,9 @@ public class ServiceTests {
 	@Test
 	public void testManagerLogin() {
 		try {
-			ManagerPojo actualResult = managerService.managerLogin(100,"1234");
-			ManagerPojo expectedResult = new ManagerPojo(101, "Roz", "Slug",  "(546)354-3218" , "168 Watching Ct." , "2468", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg/800px-Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg?20220222130835");
-			when(managerDao.fetchManager(100)).thenReturn(new ManagerPojo(100, "Roz", "Slug",  "(546)354-3218" , "168 Watching Ct." , "2468", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg/800px-Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg?20220222130835"));
+			ManagerPojo actualResult = managerService.managerLogin(101,"2468");
+			ManagerPojo expectedResult = new ManagerPojo(101, "Roz", "Slug",  "(546)354-3218" , "354 Watching Rd." , "2468", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg/800px-Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg?20220222130835");
+			when(managerDao.fetchManager(101)).thenReturn(new ManagerPojo(101, "Roz", "Slug",  "(546)354-3218" , "354 Watching Rd." , "2468", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg/800px-Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg?20220222130835"));
 			assertEquals(actualResult,expectedResult);
 			//verify(employeeDao).fetchEmployee(100);
 			
