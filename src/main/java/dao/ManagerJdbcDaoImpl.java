@@ -35,7 +35,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 				managerPojo = new ManagerPojo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			throw new SystemException();
 		}
 		
@@ -63,7 +63,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			returnReimbursement.setReimbursementPending(false);
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			throw new SystemException();
 		}
 		LOG.info("Exited updatePendingRequest() in DAO");
@@ -89,7 +89,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			throw new SystemException();
 		}
 		
@@ -108,20 +108,20 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 		
 		try {
 			Statement stmt = conn.createStatement();
-			System.out.println(reimbursementPojo.isRequestApproved());
+			LOG.debug(reimbursementPojo.isRequestApproved());
 			String query = "INSERT INTO resolved_reimbursements(reimbursement_id, request_approved) VALUES(" + reimbursementPojo.getReimbursementId() + ", '" + reimbursementPojo.isRequestApproved() + "')";
 			int rows = stmt.executeUpdate(query);
-			System.out.println("INSERT query in addResolvedRequest() was successful");
+			LOG.debug("INSERT query in addResolvedRequest() was successful");
 			String query2 = "SELECT MAX(reimbursement_id), MAX(date_resolved) FROM resolved_reimbursements";
 			ResultSet rs = stmt.executeQuery(query2);
-			System.out.println("SELECT query in addResolvedRequest() was successful");
+			LOG.debug("SELECT query in addResolvedRequest() was successful");
 			if(rs.next()) {
 				reimbursementPojo.setReimbursementId(rs.getInt(1));
 				reimbursementPojo.setDateResolved(rs.getString(2));
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			throw new SystemException();
 		}
 		
@@ -142,7 +142,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			
 			conn.setAutoCommit(false);
 			
-			System.out.println(reimbursementPojo.isRequestApproved());
+			LOG.debug(reimbursementPojo.isRequestApproved());
 			
 			addResolvedRequest(new ReimbursementPojo(reimbursementPojo.getReimbursementId(), reimbursementPojo.isRequestApproved()));
 			
@@ -150,12 +150,12 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			
 			// update request will reset request approved to false, fix that here.
 			returnReimbursement.setRequestApproved(reimbursementPojo.isRequestApproved());
-			System.out.println(returnReimbursement.isRequestApproved());
+			LOG.debug(returnReimbursement.isRequestApproved());
 			
 			conn.commit();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			throw new SystemException();
 		}
 		
@@ -183,7 +183,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			throw new SystemException();
 		}
 		
@@ -213,10 +213,9 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			throw new SystemException();
 		}
-		
 		
 		LOG.info("Exiting viewAllResolvedRequests() in Manager DAO");
 		
@@ -244,7 +243,7 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			throw new SystemException();
 		}
 		
@@ -266,14 +265,14 @@ public class ManagerJdbcDaoImpl implements ManagerDao {
 			String query = "SELECT * FROM employee_details";
 			
 			ResultSet rs = stmt.executeQuery(query);
-			System.out.println(rs);
+			LOG.debug(rs);
 			while (rs.next()) {
 				EmployeePojo employeePojo = new EmployeePojo(rs.getInt(1), rs.getString(2), rs.getString(3),
 						rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
 				allEmployees.add(employeePojo);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			throw new SystemException();
 		}
 		LOG.info("Exiting viewAllEmployees() in DAO");
