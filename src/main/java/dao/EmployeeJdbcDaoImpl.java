@@ -35,12 +35,12 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			// reimbursement_pending will always be true for this method
 			String query1 = "INSERT INTO reimbursement_details( requesting_employee_id, reimbursement_amount, reimbursement_pending) VALUES("+reimbursementPojo.getRequestingEmployeeId()+", "+reimbursementPojo.getReimbursementAmount()+", 't')";
 			int rows = stmt.executeUpdate(query1);
-			System.out.println("INSERT query in submitRequest() was successful");
+			LOG.debug("INSERT query in submitRequest() was successful");
 			
 			// Add reimbursement ID and date ID to reimbursement POJO for use in upper layers
 			String query2 = "SELECT MAX(reimbursement_id), MAX(date_of_request) FROM reimbursement_details";
 			ResultSet rs = stmt.executeQuery(query2);
-			System.out.println("SELECT query in submitRequest() was successful");
+			LOG.debug("SELECT query in submitRequest() was successful");
 			
 			if(rs.next()) {
 				reimbursementPojo.setReimbursementId(rs.getInt(1));
@@ -48,7 +48,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+		
 			throw new SystemException();
 		}
 		
@@ -69,7 +69,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			
 			String query = "SELECT * FROM reimbursement_details WHERE requesting_employee_id="+employeeId+" AND reimbursement_pending='t'";
 			ResultSet rs = stmt.executeQuery(query);
-			System.out.println("Query executed successfully");
+			LOG.debug("Query executed successfully");
 			// iterate through the result set
 			while(rs.next()) {
 				// copy each record into a ReinbursementPojo object
@@ -79,7 +79,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+		
 			throw new SystemException();
 		}
 		
@@ -101,7 +101,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			
 			String query = "SELECT reimbursement_details.reimbursement_id, resolved_reimbursement_id, requesting_employee_id, reimbursement_amount, reimbursement_pending, request_approved, date_of_request, date_resolved FROM reimbursement_details INNER JOIN resolved_reimbursements ON reimbursement_details.reimbursement_id=resolved_reimbursements.reimbursement_id WHERE requesting_employee_id="+employeeId+" ORDER BY resolved_reimbursements.date_resolved";
 			ResultSet rs = stmt.executeQuery(query);
-			System.out.println("Query executed successfully");
+			LOG.debug("Query executed successfully");
 			// iterate through the result set
 			while(rs.next()) {
 				// copy each record into a ReinbursementPojo object
@@ -111,7 +111,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+		
 			throw new SystemException();
 		}
 		
@@ -131,7 +131,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			Statement stmt = conn.createStatement();
 			String query = "SELECT * FROM employee_details WHERE employee_id="+employeeId;
 			ResultSet rs = stmt.executeQuery(query);
-			System.out.println("Query executed successfully");
+			LOG.debug("Query executed successfully");
 			
 			if(rs.next()) {
 				
@@ -139,7 +139,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			}
 			
 		} catch (SQLException e){
-			e.printStackTrace();
+		
 			throw new SystemException();
 		}
 		
@@ -160,9 +160,9 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			String query = "UPDATE employee_details SET employee_first_name='"+employeePojo.getEmployeeFirstName()+"', employee_last_name='"+employeePojo.getEmployeeLastName()+"', employee_phone_number='"+employeePojo.getEmployeePhoneNumber()+"', employee_address='"+employeePojo.getEmployeeAddress()+"', employee_password='"+employeePojo.getEmployeePassword()+"', employee_image_url='"+employeePojo.getEmployeeImageUrl()+"' WHERE employee_Id="+employeePojo.getEmployeeId();
 						
 			int rows = stmt.executeUpdate(query);
-			System.out.println("Query executed successfully");
+			LOG.debug("Query executed successfully");
 		} catch (SQLException e) {
-			e.printStackTrace();
+		
 			throw new SystemException();
 		}
 		LOG.info("Exiting updateEmployee() in DAO");
