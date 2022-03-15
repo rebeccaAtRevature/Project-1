@@ -1,6 +1,6 @@
 pipeline {
 	agent { docker { image 'maven:3.3.3' } }
-	steps {
+	stages {
 		stage ('Compile Stage') {
 			steps {
 				sh 'mvn clean compile'
