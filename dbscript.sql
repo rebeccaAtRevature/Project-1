@@ -43,6 +43,5 @@ ALTER TABLE resolved_reimbursements ADD
       REFERENCES reimbursement_details (reimbursement_id)
       ON DELETE CASCADE;
 
-SELECT reimbursement_details.reimbursement_id, resolved_reimbursement_id, requesting_employee_id, reimbursement_amount, reimbursement_pending, request_approved, date_of_request, date_resolved FROM reimbursement_details INNER JOIN resolved_reimbursements ON reimbursement_details.reimbursement_id=resolved_reimbursements.reimbursement_id ORDER BY resolved_reimbursements.date_resolved;
-
-SELECT reimbursement_details.reimbursement_id, resolved_reimbursement_id, requesting_employee_id, reimbursement_amount, reimbursement_pending, request_approved, date_of_request, date_resolved FROM reimbursement_details INNER JOIN resolved_reimbursements ON reimbursement_details.reimbursement_id=resolved_reimbursements.reimbursement_id WHERE requesting_employee_id=  ORDER BY resolved_reimbursements.date_resolved;
+INSERT INTO employee_details(employee_first_name, employee_last_name, employee_phone_number, employee_password, employee_image_url) VALUES("Celia", "Mae",  "(546)654-1654" , "665 Weelia Ct." , "1234", "https://images.unsplash.com/photo-1611432579699-484f7990b127?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGVhZHNob3R8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60");
+INSERT INTO manager_details(manager_first_name, manager_last_name, manager_phone_number, manager_password, manager_image_url) VALUES("Roz", "Slug",  "(546)354-3218" , "354 Watching Rd." , "2468", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg/800px-Monsters%2C_Inc._Mike_%26_Sulley_to_the_Rescue%21_02.jpg?20220222130835");
