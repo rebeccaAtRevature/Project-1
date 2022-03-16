@@ -1,5 +1,7 @@
 CREATE DATABASE ers;
 
+\c ers;
+
 CREATE TABLE employee_details(employee_id INT GENERATED ALWAYS AS IDENTITY (START WITH 100 INCREMENT BY 1), 
                             employee_first_name VARCHAR(20),
                             employee_last_name VARCHAR(20), 
