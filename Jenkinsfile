@@ -1,15 +1,23 @@
 pipeline {
 	agent any
 	stages {
-		stage ('Compile Stage') {
+		stage ('Clone Code') {
 			steps {
-				sh 'mvn clean compile'
+				// get some code from a GitHub repository
+				git branch: 'continuous-integration', url: 'git@github.com/rebeccaAtRevature/Project-1'
 			}
 		}
 		
-		stage ('Install Stage') {
+		stage ('Build Code') {
 			steps {
-				sh 'mvn install'
+				sh 'mvn clean package'
+			}
+		}
+		
+		stage ('Staging') {
+			steps {
+				sh 'docker-compose down'
+				sh 'docker-compose up -d'
 			}
 		}
 	}
