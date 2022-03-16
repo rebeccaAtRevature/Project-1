@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
     volumes:
-      - ./dbscript:/docker-entrypoint-initdb.d
+      - ./dbscript.sql:/docker-entrypoint-initdb.d/create_tables.sql
   javalin-backend-service:
     image: javalin-backend
     build: .
