@@ -4,7 +4,7 @@ pipeline {
 		stage ('Clone Code') {
 			steps {
 				// get some code from a GitHub repository
-				git (branch: 'continuous-integration', url: 'git@github.com:rebeccaAtRevature/Project-1')
+				git (branch: 'continuous-integration', url: 'https://github.com:rebeccaAtRevature/Project-1')
 			}
 		}
 		
