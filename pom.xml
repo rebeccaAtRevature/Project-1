@@ -3,9 +3,6 @@
 	<groupId>ers.com</groupId>
 	<artifactId>ExpenseReimbursementSystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<properties>
-		<java.version>11</java.version>
-	</properties>
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
@@ -96,8 +93,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<source>11</source>
-					<target>11</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
