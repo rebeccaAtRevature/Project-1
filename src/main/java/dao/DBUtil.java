@@ -36,7 +36,7 @@ public class DBUtil {
 		
 		FileInputStream fileStream;
 		try {
-			fileStream = new FileInputStream("src/main/resources/JDBCPropertiesFile.properties");
+			fileStream = new FileInputStream("JDBCPropertiesFile.properties");
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 			throw new SystemException();
