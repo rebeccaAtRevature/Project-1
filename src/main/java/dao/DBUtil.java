@@ -33,26 +33,10 @@ public class DBUtil {
 	
 	static Connection obtainConnection() throws SystemException{
 		LOG.info("Entering obtainConnection() in DBUtil");
-		
-		FileInputStream fileStream;
-		try {
-			fileStream = new FileInputStream("JDBCPropertiesFile.properties");
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-			throw new SystemException();
-		} 
-		Properties properties = new Properties(); 
-		try {
-			properties.load(fileStream);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			throw new SystemException();
-		}
 
-		String URL = properties.getProperty("URL");	
-		String CONNECTION_PASSWORD = properties.getProperty("CONNECTION_PASSWORD"); 
-		String CONNECTION_USERNAME = properties.getProperty("CONNECTION_USERNAME"); 
-
+		String URL = "jdbc:postgresql://ip-172-31-80-121.ec2.internal:8888/ers";	
+		String CONNECTION_PASSWORD = "mysecretpassword"; 
+		String CONNECTION_USERNAME = "postgres"; 
 		
 		// DESIGN PATTERN - singleton design pattern
 		if(conn == null) {
