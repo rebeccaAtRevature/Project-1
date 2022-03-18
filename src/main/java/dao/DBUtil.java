@@ -36,7 +36,7 @@ public class DBUtil {
 		
 		FileInputStream fileStream;
 		try {
-			fileStream = new FileInputStream("C:/Users/rebel/eclipse-workspace/ExpenseReimbursementSystem/src/main/resources/JDBCPropertiesFile.properties");
+			fileStream = new FileInputStream("/var/lib/jenkins/workspace/backend-pipeline/src/main/resources/JDBCPropertiesFile.properties");
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 			throw new SystemException();
